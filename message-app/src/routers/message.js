@@ -1,14 +1,17 @@
 const express = require("express");
+const User = require("../models/users");
 const Message = require("../models/message");
 const auth = require("../middleware/auth");
 const router = new express.Router();
 
-//mcreate message
+//create message
 
-router.post("/message", auth, async (req, res) => {
+router.post("/message/:receiverId", auth, async (req, res) => {
+  const receiverId = req.params.receiverId;
   const message = new Message({
     ...req.body,
     owner: req.user._id,
+    receiver: receiverId,
   });
   try {
     await message.save();

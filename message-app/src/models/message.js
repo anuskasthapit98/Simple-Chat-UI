@@ -3,20 +3,28 @@ const validator = require("validator");
 
 // defining message models
 
-const Messages = mongoose.model("Messages", {
-  message: {
-    type: String,
-    required: true,
+const messageSchema = new mongoose.Schema(
+  {
+    message: {
+      type: String,
+      required: true,
+    },
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
+    receiver: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
   },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
-  owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref:'User'
-  },
-});
+  {
+    timestamps: true,
+  }
+);
+
+const Messages = mongoose.model("Messages", messageSchema);
 
 module.exports = Messages;
