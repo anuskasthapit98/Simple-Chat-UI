@@ -5,6 +5,7 @@ const postSchema = new mongoose.Schema(
   {
     postedByUser: {
       type: mongoose.Schema.Types.ObjectId,
+      ref: "Users",
     },
     content: {
       type: String,
@@ -20,6 +21,8 @@ const postSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+postSchema.index({ loc: "2dsphere" });
 
 postSchema.statics.getPostByNearest = async function (id) {
   try {

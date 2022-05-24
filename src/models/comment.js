@@ -12,6 +12,7 @@ const commentSchema = new mongoose.Schema(
     },
     postId: {
       type: mongoose.Schema.Types.ObjectId,
+      ref: "Users",
     },
   },
   {

@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-
     firstName: {
       type: String,
       required: true,
@@ -20,6 +19,8 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+userSchema.index({ loc: "2dsphere" });
 
 userSchema.statics.getUserById = async function (id) {
   try {
