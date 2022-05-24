@@ -1,6 +1,18 @@
 const mongoose = require("mongoose");
 const User = require("./user");
 
+const locationSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    default: "Point",
+  },
+  coordinates: {
+    type: [Number],
+  },
+  _id: false,
+  timestamps: false,
+});
+
 const postSchema = new mongoose.Schema(
   {
     postedByUser: {
@@ -12,17 +24,12 @@ const postSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    loc: {
-      type: { type: String },
-      coordinates: { type: [Number] },
-    },
+    loc: locationSchema,
   },
   {
     timestamps: true,
   }
 );
-
-postSchema.index({ loc: "2dsphere" });
 
 postSchema.statics.getPostByNearest = async function (id) {
   try {
@@ -33,7 +40,7 @@ postSchema.statics.getPostByNearest = async function (id) {
       location: {
         $near: {
           $geometry: {
-            type: user.loc.type,
+            type: "Point",
             coordinates: user.loc.coordinates,
           },
         },

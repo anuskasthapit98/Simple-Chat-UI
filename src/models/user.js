@@ -1,5 +1,17 @@
 const mongoose = require("mongoose");
 
+const locationSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    default: "Point",
+  },
+  coordinates: {
+    type: [Number],
+  },
+  _id: false,
+  timestamps: false,
+});
+
 const userSchema = new mongoose.Schema(
   {
     firstName: {
@@ -10,17 +22,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    loc: {
-      type: { type: String },
-      coordinates: { type: [Number] },
-    },
+    loc: locationSchema,
   },
   {
     timestamps: true,
   }
 );
-
-userSchema.index({ loc: "2dsphere" });
 
 userSchema.statics.getUserById = async function (id) {
   try {
