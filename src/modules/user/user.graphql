@@ -1,0 +1,18 @@
+scalar Date
+
+type User {
+    _id: String
+    name: String
+    email: String
+    createAt: Date
+    updateAt: Date
+    isActive: Boolean
+    isBlocked: Boolean
+    isOnline: Boolean
+}
+
+type Query {
+    me: User!
+    users: [User]!
+    user(id: String!): User!
+}
